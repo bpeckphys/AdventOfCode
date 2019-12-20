@@ -89,14 +89,12 @@ public class Day_6
 
         while (!me.equals("COM"))
         {
-            System.out.println("me: " + me);
             me = parents.get(me);
             myOrbits.add(me);
         }
 
         while (!santa.equals("COM"))
         {
-            System.out.println("santa: " + santa);
             santa = parents.get(santa);
             santasOrbits.add(santa);
         }
@@ -117,6 +115,6 @@ public class Day_6
             }
         }
 
-        return comOrbits.size() + 1;
+        return comOrbits.size();
     }
 }
