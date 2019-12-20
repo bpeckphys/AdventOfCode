@@ -4,6 +4,7 @@ import day3.Day_3;
 import day4.Day_4;
 import day5.Day_5;
 import day6.Day_6;
+import day7.Day_7;
 
 public class AdventOfCode
 {
@@ -14,5 +15,6 @@ public class AdventOfCode
         Day_4.run();
         Day_5.run();
         Day_6.run();
+        Day_7.run();
     }
 }
