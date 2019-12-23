@@ -1,4 +1,4 @@
-package day1;
+package main.java.day1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +16,7 @@ public class Day_1
     {
         ArrayList<Integer> inputList = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/day1/Day_1_Input")))
+        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/day1/Day_1_Input")))
         {
             while (scanner.hasNextInt())
             {
@@ -35,6 +35,8 @@ public class Day_1
     static int calculateFuel(ArrayList<Integer> masses)
     {
         int totalFuel = 0;
+
+        // Implement using streams
 
         for (int i = 0; i < masses.size(); i++)
         {

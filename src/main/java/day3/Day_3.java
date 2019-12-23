@@ -1,4 +1,4 @@
-package day3;
+package main.java.day3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +19,7 @@ public class Day_3
         HashMap<Pair, Integer> firstPairMap;
         HashMap<Pair, Integer> secondPairMap;
 
-        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/day3/Day_3_Input")))
+        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/day3/Day_3_Input")))
         {
             firstPairMap = getPairMap(scanner.nextLine());
             secondPairMap = getPairMap(scanner.nextLine());
@@ -66,6 +66,8 @@ public class Day_3
                     case 'D': prev = new Pair(prev.x, prev.y - 1); break;
                     case 'R': prev = new Pair(prev.x + 1, prev.y); break;
                     case 'L': prev = new Pair(prev.x - 1, prev.y); break;
+
+                    // Add default case, maybe throw an exception
                 }
 
                 pairMap.put(prev, steps++);
