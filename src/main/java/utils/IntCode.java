@@ -1,4 +1,4 @@
-package main.java.utils;
+package utils;
 
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -44,7 +44,6 @@ public class IntCode
                 case 3:
                     int input = receiver.get();
                     inputIntCode[inputIntCode[i + 1]] = input;
-                    System.out.println("\tInput value: " + input);
 
                     i += 2;
 

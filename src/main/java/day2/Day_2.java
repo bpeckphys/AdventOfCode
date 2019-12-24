@@ -1,4 +1,4 @@
-package main.java.day2;
+package day2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static main.java.utils.IntCode.calculateIntCode;
+import static utils.IntCode.calculateIntCode;
 
 public class Day_2
 {

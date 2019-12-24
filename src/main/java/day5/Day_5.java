@@ -1,4 +1,4 @@
-package main.java.day5;
+package day5;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static main.java.utils.IntCode.calculateIntCode;
+import static utils.IntCode.calculateIntCode;
 
 public class Day_5
 {
@@ -43,8 +43,11 @@ public class Day_5
         System.out.println("Day 5:");
 
         Consumer<Integer> sender = out -> { System.out.println("\t\tOutput: " + out); };
+        System.out.println("\tInput value: 1");
 
         calculateIntCode(inputArray, () -> 1, sender);
+
+        System.out.println("\tInput value: 5");
         calculateIntCode(inputArrayClone, () -> 5, sender);
     }
 }
