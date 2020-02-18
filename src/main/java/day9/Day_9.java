@@ -1,18 +1,14 @@
-package day5;
+package day9;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import utils.IntCode;
 
-public class Day_5
+public class Day_9
 {
-    public static IntCode day5IntCode = new IntCode();
-
     public static void main(String[] args)
     {
         run();
@@ -22,7 +18,7 @@ public class Day_5
     {
         ArrayList<Integer> input = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/day5/Day_5_Input"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/day9/Day_9_Input"));
              Scanner scanner = new Scanner(reader.lines().collect(Collectors.joining())))
         {
             scanner.useDelimiter(",");
@@ -38,17 +34,6 @@ public class Day_5
             throw new RuntimeException(e);
         }
 
-        int[] inputArray = input.stream().mapToInt(i -> i).toArray();
-        int[] inputArrayClone = inputArray.clone();
-
-        System.out.println("Day 5:");
-
-        Consumer<Integer> sender = out -> { System.out.println("\t\tOutput: " + out); };
-        System.out.println("\tInput value: 1");
-
-        day5IntCode.calculateIntCode(inputArray, () -> 1, sender);
-
-        System.out.println("\tInput value: 5");
-        day5IntCode.calculateIntCode(inputArrayClone, () -> 5, sender);
+        System.out.println("Day 9:");
     }
 }

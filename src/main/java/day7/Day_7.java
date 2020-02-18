@@ -7,12 +7,14 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import utils.IntCode;
 
 import static utils.PermutingArray.getPerms;
-import static utils.IntCode.calculateIntCode;
 
 public class Day_7
 {
+    public static IntCode day7IntCode = new IntCode();
+
     public static void main(String[] args)
     {
         run();
@@ -65,7 +67,7 @@ public class Day_7
             };
             Consumer<Integer> sender = out -> signal[0] = out;
 
-            calculateIntCode(intCodeInputCopy, receiver, sender);
+            day7IntCode.calculateIntCode(intCodeInputCopy, receiver, sender);
         }
 
 //        System.out.println("\t\tOutput: " + signal[0]);

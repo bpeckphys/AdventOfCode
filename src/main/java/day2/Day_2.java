@@ -5,11 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static utils.IntCode.calculateIntCode;
+import utils.IntCode;
 
 public class Day_2
 {
+    private static IntCode day2IntCode = new IntCode();
+
     public static void main(String[] args)
     {
         run();
@@ -41,7 +42,7 @@ public class Day_2
         inputArray[1] = 12;
         inputArray[2] = 2;
 
-        calculateIntCode(inputArray, null, null);
+        day2IntCode.calculateIntCode(inputArray, null, null);
 
         System.out.println("Day 2:");
         System.out.println("\tValue at position 0 is: " + inputArray[0]);
@@ -64,7 +65,7 @@ public class Day_2
                 outPutArray[1] = i;
                 outPutArray[2] = j;
 
-                calculateIntCode(outPutArray, null, null);
+                day2IntCode.calculateIntCode(outPutArray, null, null);
 
                 if (outPutArray[0] == output)
                 {

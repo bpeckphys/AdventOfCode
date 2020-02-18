@@ -8,24 +8,26 @@ public class IntCode
 {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void calculateIntCode(int[] inputIntCode, Supplier<Integer> receiver, Consumer<Integer> sender)
+    public void calculateIntCode(int[] inputIntCode, Supplier<Integer> receiver, Consumer<Integer> sender)
     {
         boolean run = true;
         int i = 0;
+        int relativeBase = 0;
 
         while (i < inputIntCode.length && run)
         {
             Integer value;
-            int paramOne;
-            int paramTwo;
             int[] opCode = getOpCode(inputIntCode[i]);
+            int paramOne = opCode[3];
+            int paramTwo = opCode[2];
+            int paramThree = opCode[1];
             int instructions = opCode[4];
 
             switch (instructions)
             {
                 case 1:
-                    value = (opCode[3] == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1])
-                            + (opCode[2] == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2]);
+                    value = (paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1])
+                            + (paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2]);
                     inputIntCode[inputIntCode[i + 3]] = value;
 
                     i += 4;
@@ -33,8 +35,8 @@ public class IntCode
                     break;
 
                 case 2:
-                    value = (opCode[3] == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1])
-                            * (opCode[2] == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2]);
+                    value = (paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1])
+                            * (paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2]);
                     inputIntCode[inputIntCode[i + 3]] = value;
 
                     i += 4;
@@ -50,7 +52,7 @@ public class IntCode
                     break;
 
                 case 4:
-                    value = opCode[3] == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
+                    value = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
                     sender.accept(value);
 
                     i += 2;
@@ -58,24 +60,24 @@ public class IntCode
                     break;
 
                 case 5:
-                    paramOne = opCode[3] == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = opCode[2] == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
+                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
 
                     i = paramOne != 0 ? paramTwo : i + 3;
 
                     break;
 
                 case 6:
-                    paramOne = opCode[3] == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = opCode[2] == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
+                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
 
                     i = paramOne == 0 ? paramTwo : i + 3;
 
                     break;
 
                 case 7:
-                    paramOne = opCode[3] == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = opCode[2] == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
+                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
 
                     inputIntCode[inputIntCode[i + 3]] = paramOne < paramTwo ? 1 : 0;
 
@@ -84,14 +86,17 @@ public class IntCode
                     break;
 
                 case 8:
-                    paramOne = opCode[3] == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = opCode[2] == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
+                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
 
                     inputIntCode[inputIntCode[i + 3]] = paramOne == paramTwo ? 1 : 0;
 
                     i += 4;
 
                     break;
+
+                case 9:
+                    relativeBase += inputIntCode[i + 1];
 
                 case 99:
                     run = false;
