@@ -37,7 +37,7 @@ public class Day_2
             throw new RuntimeException(e);
         }
 
-        ArrayList<Integer> inputArrayListCopy = new DeepCopy.copyArrayList(input);
+        ArrayList<Integer> inputArrayListCopy = DeepCopy.copyIntegerArrayList(input);
 
         // Declare values as final and assign to the array
         inputArrayListCopy.set(1, 12);
@@ -62,7 +62,7 @@ public class Day_2
         {
             for (int j = 0; j <= 99; j++)
             {
-                ArrayList<Integer> outPutArrayList = new ArrayList<>(inputIntCode);
+                ArrayList<Integer> outPutArrayList = DeepCopy.copyIntegerArrayList(inputIntCode);
                 outPutArrayList.set(1, i);
                 outPutArrayList.set(2, j);
 
