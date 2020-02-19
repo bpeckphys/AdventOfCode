@@ -46,6 +46,7 @@ public class Day_8
             if (i % 25 == 0)
             {
                 System.out.println();
+                System.out.print("\t\t");
             }
 
             if (output[i] == 1)
@@ -57,6 +58,7 @@ public class Day_8
                 System.out.print(" ");
             }
         }
+        System.out.println();
     }
 
     private static int[] imageResult(int[] inputArray)
