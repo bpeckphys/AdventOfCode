@@ -1,43 +1,45 @@
 package utils;
 
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class IntCode
 {
-    static Scanner scanner = new Scanner(System.in);
+    private int relativeBase = 0;
+    private List<Integer> intCode;
 
-    public void calculateIntCode(int[] inputIntCode, Supplier<Integer> receiver, Consumer<Integer> sender)
+    public void calculateIntCode(ArrayList<Integer> inputIntCode, Supplier<Integer> receiver, Consumer<Integer> sender)
     {
+        intCode = inputIntCode;
         boolean run = true;
         int i = 0;
-        int relativeBase = 0;
 
-        while (i < inputIntCode.length && run)
+        while (i < intCode.size() && run)
         {
             Integer value;
-            int[] opCode = getOpCode(inputIntCode[i]);
-            int paramOne = opCode[3];
-            int paramTwo = opCode[2];
-            int paramThree = opCode[1];
-            int instructions = opCode[4];
+            int[] opCode = getOpCode(intCode.get(i));
+            int paramOne = opCode[2];
+            int paramTwo = opCode[1];
+            int paramThree = opCode[0];
+            int instructions = opCode[3] * 10 + opCode[4];
 
             switch (instructions)
             {
                 case 1:
-                    value = (paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1])
-                            + (paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2]);
-                    inputIntCode[inputIntCode[i + 3]] = value;
+                    value = modeOutput(1, paramOne, i)
+                          + modeOutput(2, paramTwo, i);
+                    intCode.set(intCode.get(intCode.get(i + 3)), value);
 
                     i += 4;
 
                     break;
 
                 case 2:
-                    value = (paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1])
-                            * (paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2]);
-                    inputIntCode[inputIntCode[i + 3]] = value;
+                    value = modeOutput(1, paramOne, i)
+                            * modeOutput(2, paramTwo, i);
+                    intCode.set(intCode.get(intCode.get(i + 3)), value);
 
                     i += 4;
 
@@ -45,14 +47,14 @@ public class IntCode
 
                 case 3:
                     int input = receiver.get();
-                    inputIntCode[inputIntCode[i + 1]] = input;
+                    intCode.set(intCode.get(intCode.get(i + 1)), input);
 
                     i += 2;
 
                     break;
 
                 case 4:
-                    value = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
+                    value = modeOutput(1, paramOne, i);
                     sender.accept(value);
 
                     i += 2;
@@ -60,43 +62,48 @@ public class IntCode
                     break;
 
                 case 5:
-                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = modeOutput(1, paramOne, i);
+                    paramTwo = modeOutput(2, paramTwo, i);
 
                     i = paramOne != 0 ? paramTwo : i + 3;
 
                     break;
 
                 case 6:
-                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = modeOutput(1, paramOne, i);
+                    paramTwo = modeOutput(2, paramTwo, i);
 
                     i = paramOne == 0 ? paramTwo : i + 3;
 
                     break;
 
                 case 7:
-                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = modeOutput(1, paramOne, i);
+                    paramTwo = modeOutput(2, paramTwo, i);
 
-                    inputIntCode[inputIntCode[i + 3]] = paramOne < paramTwo ? 1 : 0;
+                    intCode.set(intCode.get(intCode.get(i + 3)), paramOne < paramTwo ? 1 : 0);
 
                     i += 4;
 
                     break;
 
                 case 8:
-                    paramOne = paramOne == 0 ? inputIntCode[inputIntCode[i + 1]] : inputIntCode[i + 1];
-                    paramTwo = paramTwo == 0 ? inputIntCode[inputIntCode[i + 2]] : inputIntCode[i + 2];
+                    paramOne = modeOutput(1, paramOne, i);
+                    paramTwo = modeOutput(2, paramTwo, i);
 
-                    inputIntCode[inputIntCode[i + 3]] = paramOne == paramTwo ? 1 : 0;
+                    intCode.set(intCode.get(intCode.get(i + 3)), paramOne == paramTwo ? 1 : 0);
 
                     i += 4;
 
                     break;
 
                 case 9:
-                    relativeBase += inputIntCode[i + 1];
+                    value = modeOutput(1, paramOne, i);
+                    relativeBase += value;
+
+                    i += 2;
+
+                    break;
 
                 case 99:
                     run = false;
@@ -106,24 +113,42 @@ public class IntCode
         }
     }
 
-    public static int[] getOpCode(int opInput)
+    private int[] getOpCode(int opInput)
     {
         int[] opCode = new int[5];
 
         String operation = Integer.toString(opInput);
 
-        while (operation.length() < 6)
+        while (operation.length() < 5)
         {
             operation = "0" + operation;
         }
 
-        opCode[4] = Integer.parseInt(operation.substring(4));
-
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             opCode[i] = Integer.parseInt(operation.substring(i, i + 1));
         }
 
         return opCode;
+    }
+
+    private int modeOutput(int paramNumber, int paramValue, int pointer)
+    {
+        int localRelativeBase = relativeBase + intCode.get(pointer + paramNumber); //intCode[pointer + paramNumber];
+
+        switch (paramValue)
+        {
+            case 0:
+                return intCode.get(intCode.get(pointer + paramNumber)); //intCode[intCode[pointer + paramNumber]];
+
+            case 1:
+                return intCode.get(pointer + paramNumber); //intCode[pointer + paramNumber];
+
+            case 2:
+                return intCode.get(localRelativeBase); //intCode[localRelativeBase];
+
+            default:
+                throw new IndexOutOfBoundsException();
+        }
     }
 }
