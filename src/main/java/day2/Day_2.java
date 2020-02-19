@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import utils.DeepCopy;
 import utils.IntCode;
 
 public class Day_2
@@ -35,25 +37,24 @@ public class Day_2
             throw new RuntimeException(e);
         }
 
-        int[] inputArray = input.stream().mapToInt(i -> i).toArray();
-        int[] inputArrayCopy = inputArray.clone();
+        ArrayList<Integer> inputArrayListCopy = DeepCopy.copyIntegerArrayList(input);
 
         // Declare values as final and assign to the array
-        inputArray[1] = 12;
-        inputArray[2] = 2;
+        inputArrayListCopy.set(1, 12);
+        inputArrayListCopy.set(2, 2);
 
-        day2IntCode.calculateIntCode(inputArray, null, null);
+        day2IntCode.calculateIntCode(input, null, null);
 
         System.out.println("Day 2:");
-        System.out.println("\tValue at position 0 is: " + inputArray[0]);
+        System.out.println("\tValue at position 0 is: " + inputArrayListCopy.get(0));
 
-        int[] inputs = getInputs(inputArrayCopy, 19690720);
+        int[] inputs = getInputs(inputArrayListCopy, 19690720);
 
         System.out.println("\tInput noun and verb that output 19690720 are: " + inputs[0] + ", " + inputs[1]);
         System.out.println("\t(100 * noun) + verb is: " + ((100 * inputs[0]) + inputs[1]));
     }
 
-    public static int[] getInputs(int[] inputIntCode, int output)
+    public static int[] getInputs(ArrayList<Integer> inputIntCode, int output)
     {
         int[] result = new int[2];
 
@@ -61,13 +62,13 @@ public class Day_2
         {
             for (int j = 0; j <= 99; j++)
             {
-                int[] outPutArray = inputIntCode.clone();
-                outPutArray[1] = i;
-                outPutArray[2] = j;
+                ArrayList<Integer> outPutArrayList = DeepCopy.copyIntegerArrayList(inputIntCode);
+                outPutArrayList.set(1, i);
+                outPutArrayList.set(2, j);
 
-                day2IntCode.calculateIntCode(outPutArray, null, null);
+                day2IntCode.calculateIntCode(outPutArrayList, null, null);
 
-                if (outPutArray[0] == output)
+                if (outPutArrayList.get(0).equals(output))
                 {
                     result[0] = i;
                     result[1] = j;

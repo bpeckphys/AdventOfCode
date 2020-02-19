@@ -137,4 +137,24 @@ public class IntCode
 
         return opCode;
     }
+
+    private int modeOutput(int paramNumber, int paramValue, int pointer)
+    {
+        int localRelativeBase = relativeBase + intCode.get(pointer + paramNumber); //intCode[pointer + paramNumber];
+
+        switch (paramValue)
+        {
+            case 0:
+                return intCode.get(intCode.get(pointer + paramNumber)); //intCode[intCode[pointer + paramNumber]];
+
+            case 1:
+                return intCode.get(pointer + paramNumber); //intCode[pointer + paramNumber];
+
+            case 2:
+                return intCode.get(localRelativeBase); //intCode[localRelativeBase];
+
+            default:
+                throw new IndexOutOfBoundsException();
+        }
+    }
 }
