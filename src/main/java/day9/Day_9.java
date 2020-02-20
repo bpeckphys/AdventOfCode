@@ -19,17 +19,17 @@ public class Day_9
 
     public static void run()
     {
-        ArrayList<Integer> input = new ArrayList<>();
+        ArrayList<Long> input = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/day9/Day_9_Input_Test"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/day9/Day_9_Input"));
              Scanner scanner = new Scanner(reader.lines().collect(Collectors.joining())))
         {
             scanner.useDelimiter(",");
 
             while (scanner.hasNext())
             {
-                int currentInt = Integer.parseInt(scanner.next());
-                input.add(currentInt);
+                long currentLong = Long.parseLong(scanner.next());
+                input.add(currentLong);
             }
         }
         catch (IOException e)
@@ -37,12 +37,8 @@ public class Day_9
             throw new RuntimeException(e);
         }
 
-        int[] inputArray = input.stream()
-            .mapToInt(i ->
-            {
-//                System.out.println(i);
-                return i;
-            })
+        long[] inputArray = input.stream()
+            .mapToLong(i -> i)
             .toArray();
 
         IntCode day9IntCode = new IntCode();
@@ -51,20 +47,8 @@ public class Day_9
 
         System.out.print("\tBOOST keycode produced: ");
 
-        boolean[] firstTime = new boolean[]{true};
-        Consumer<Integer> sender = out ->
-        {
-            if (firstTime[0])
-            {
-                firstTime[0] = false;
-                System.out.print(out);
-            }
-            else
-            {
-                System.out.print("," + out);
-            }
-        };
+        Consumer<Long> sender = System.out::print;
 
-        day9IntCode.calculateIntCode(inputArray, () -> 1, sender);
+        day9IntCode.calculateIntCode(inputArray, () -> 1L, sender);
     }
 }

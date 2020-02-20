@@ -1,39 +1,42 @@
 package utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class IntCode
 {
-    private int relativeBase = 0;
-    private ArrayList<Integer> intCode;
+    private long relativeBase = 0;
+    private HashMap<Long, Long> intCode = new HashMap<>();
 
-    public void calculateIntCode(int[] inputIntCode, Supplier<Integer> receiver, Consumer<Integer> sender)
+    public void calculateIntCode(long[] inputIntCode, Supplier<Long> receiver, Consumer<Long> sender)
     {
         boolean run = true;
 
-        intCode = Arrays.stream(inputIntCode.clone()).boxed().collect(Collectors.toCollection(ArrayList::new));
+        for (long i = 0; i < inputIntCode.length; i++)
+        {
+            intCode.put(i, inputIntCode[(int) i]);
+        }
 
-        int i = 0;
+        long i = 0;
 
         while (i < intCode.size() && run)
         {
-            Integer value;
-            int[] opCode = getOpCode(intCode.get(i));
+            long value;
+            int[] opCode = getOpCode(Math.toIntExact(intCode.get(i)));
             int paramOne = opCode[2];
             int paramTwo = opCode[1];
             int paramThree = opCode[0];
             int instructions = opCode[3] * 10 + opCode[4];
+            long valueOne;
+            long valueTwo;
 
             switch (instructions)
             {
                 case 1:
                     value = modeOutput(1, paramOne, i)
                             + modeOutput(2, paramTwo, i);
-                    intCode.set(intCode.get(i + 3), value);
+                    intCode.replace(intCode.get(i + 3), value);
 
                     i += 4;
 
@@ -42,15 +45,15 @@ public class IntCode
                 case 2:
                     value = modeOutput(1, paramOne, i)
                             * modeOutput(2, paramTwo, i);
-                    intCode.set(intCode.get(i + 3), value);
+                    intCode.replace(intCode.get(i + 3), value);
 
                     i += 4;
 
                     break;
 
                 case 3:
-                    int input = receiver.get();
-                    intCode.set(intCode.get(i + 1), input);
+                    long input = receiver.get();
+                    intCode.replace(intCode.get(i + 1), input);
 
                     i += 2;
 
@@ -65,36 +68,36 @@ public class IntCode
                     break;
 
                 case 5:
-                    paramOne = modeOutput(1, paramOne, i);
-                    paramTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeOutput(1, paramOne, i);
+                    valueTwo = modeOutput(2, paramTwo, i);
 
-                    i = paramOne != 0 ? paramTwo : i + 3;
+                    i = valueOne != 0 ? valueTwo : i + 3;
 
                     break;
 
                 case 6:
-                    paramOne = modeOutput(1, paramOne, i);
-                    paramTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeOutput(1, paramOne, i);
+                    valueTwo = modeOutput(2, paramTwo, i);
 
-                    i = paramOne == 0 ? paramTwo : i + 3;
+                    i = valueOne == 0 ? valueTwo : i + 3;
 
                     break;
 
                 case 7:
-                    paramOne = modeOutput(1, paramOne, i);
-                    paramTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeOutput(1, paramOne, i);
+                    valueTwo = modeOutput(2, paramTwo, i);
 
-                    intCode.set(intCode.get(i + 3), paramOne < paramTwo ? 1 : 0);
+                    intCode.replace(intCode.get(i + 3), (valueOne < valueTwo ? 1L : 0));
 
                     i += 4;
 
                     break;
 
                 case 8:
-                    paramOne = modeOutput(1, paramOne, i);
-                    paramTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeOutput(1, paramOne, i);
+                    valueTwo = modeOutput(2, paramTwo, i);
 
-                    intCode.set(intCode.get(i + 3), paramOne == paramTwo ? 1 : 0);
+                    intCode.replace(intCode.get(i + 3), (long) (valueOne == valueTwo ? 1 : 0));
 
                     i += 4;
 
@@ -119,11 +122,11 @@ public class IntCode
     {
         int[] opCode = new int[5];
 
-        String operation = Integer.toString(opInput);
+        StringBuilder operation = new StringBuilder(Integer.toString(opInput));
 
         while (operation.length() < 5)
         {
-            operation = "0" + operation;
+            operation.insert(0, "0");
         }
 
         for (int i = 0; i < 5; i++)
@@ -134,9 +137,10 @@ public class IntCode
         return opCode;
     }
 
-    private int modeOutput(int paramNumber, int paramValue, int pointer)
+    private long modeOutput(int paramNumber, int paramValue, long pointer)
     {
-        int localRelativeBase = relativeBase + intCode.get(pointer + paramNumber);
+        checkMap(pointer);
+        long localRelativeBase = relativeBase + intCode.get(pointer);
 
         switch (paramValue)
         {
@@ -154,7 +158,14 @@ public class IntCode
         }
     }
 
-    public int getValue(int index)
+    private void checkMap(long pointer)
+    {
+         intCode.putIfAbsent(intCode.get(intCode.get(pointer)), 0L);
+         intCode.putIfAbsent(intCode.get(pointer + 1), 0L);
+         intCode.putIfAbsent(relativeBase + intCode.get(pointer), 0L);
+    }
+
+    public long getValue(long index)
     {
         if (index >= intCode.size())
         {

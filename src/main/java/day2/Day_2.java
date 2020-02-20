@@ -35,8 +35,8 @@ public class Day_2
             throw new RuntimeException(e);
         }
 
-        int[] inputArray = input.stream().mapToInt(i -> i).toArray();
-        int[] inputArrayCopy = inputArray.clone();
+        long[] inputArray = input.stream().mapToLong(i -> i).toArray();
+        long[] inputArrayCopy = inputArray.clone();
 
         // Declare values as final and assign to the array
         inputArray[1] = 12;
@@ -53,7 +53,7 @@ public class Day_2
         System.out.println("\t(100 * noun) + verb is: " + ((100 * inputs[0]) + inputs[1]));
     }
 
-    public static int[] getInputs(int[] inputIntCode, int output)
+    public static int[] getInputs(long[] inputIntCode, int output)
     {
         int[] result = new int[2];
 
@@ -61,12 +61,12 @@ public class Day_2
         {
             for (int j = 0; j <= 99; j++)
             {
-                int[] outPutArray = inputIntCode.clone();
+                long[] outPutArray = inputIntCode.clone();
                 outPutArray[1] = i;
                 outPutArray[2] = j;
 
                 day2IntCode.calculateIntCode(outPutArray, null, null);
-                int currentOutput = day2IntCode.getValue(0);
+                long currentOutput = day2IntCode.getValue(0);
 
                 if (currentOutput == output)
                 {
