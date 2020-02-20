@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 import utils.IntCode;
 
 public class Day_2
@@ -66,8 +67,9 @@ public class Day_2
                 outPutArray[2] = j;
 
                 day2IntCode.calculateIntCode(outPutArray, null, null);
+                int currentOutput = day2IntCode.getValue(0);
 
-                if (outPutArray[0] == output)
+                if (currentOutput == output)
                 {
                     result[0] = i;
                     result[1] = j;
