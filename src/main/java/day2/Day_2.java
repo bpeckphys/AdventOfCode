@@ -45,7 +45,7 @@ public class Day_2
         day2IntCode.calculateIntCode(inputArray, null, null);
 
         System.out.println("Day 2:");
-        System.out.println("\tValue at position 0 is: " + inputArray[0]);
+        System.out.println("\tValue at position 0 is: " + day2IntCode.getValue(0));
 
         int[] inputs = getInputs(inputArrayCopy, 19690720);
 

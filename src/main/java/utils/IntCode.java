@@ -35,8 +35,8 @@ public class IntCode
             {
                 case 1:
                     value = modeOutput(1, paramOne, i)
-                            + modeOutput(2, paramTwo, i);
-                    intCode.replace(intCode.get(i + 3), value);
+                          + modeOutput(2, paramTwo, i);
+                    intCode.replace(modeInput(3, paramThree, i), value);
 
                     i += 4;
 
@@ -44,8 +44,8 @@ public class IntCode
 
                 case 2:
                     value = modeOutput(1, paramOne, i)
-                            * modeOutput(2, paramTwo, i);
-                    intCode.replace(intCode.get(i + 3), value);
+                          * modeOutput(2, paramTwo, i);
+                    intCode.replace(modeInput(3, paramThree, i), value);
 
                     i += 4;
 
@@ -53,7 +53,7 @@ public class IntCode
 
                 case 3:
                     long input = receiver.get();
-                    intCode.replace(intCode.get(i + 1), input);
+                    intCode.replace(modeInput(1, paramOne, i), input);
 
                     i += 2;
 
@@ -87,7 +87,7 @@ public class IntCode
                     valueOne = modeOutput(1, paramOne, i);
                     valueTwo = modeOutput(2, paramTwo, i);
 
-                    intCode.replace(intCode.get(i + 3), (valueOne < valueTwo ? 1L : 0));
+                    intCode.replace(modeInput(3, paramThree, i), (valueOne < valueTwo ? 1L : 0));
 
                     i += 4;
 
@@ -97,14 +97,14 @@ public class IntCode
                     valueOne = modeOutput(1, paramOne, i);
                     valueTwo = modeOutput(2, paramTwo, i);
 
-                    intCode.replace(intCode.get(i + 3), (long) (valueOne == valueTwo ? 1 : 0));
+                    intCode.replace(modeInput(3, paramThree, i), (valueOne == valueTwo ? 1L : 0));
 
                     i += 4;
 
                     break;
 
                 case 9:
-                    relativeBase += intCode.get(i + 1);
+                    relativeBase += modeOutput(1, paramOne, i);
 
                     i += 2;
 
@@ -140,7 +140,7 @@ public class IntCode
     private long modeOutput(int paramNumber, int paramValue, long pointer)
     {
         checkMap(pointer);
-        long localRelativeBase = relativeBase + intCode.get(pointer);
+        long localRelativeBase = relativeBase + intCode.get(pointer + paramNumber);
 
         switch (paramValue)
         {
@@ -158,11 +158,29 @@ public class IntCode
         }
     }
 
+    private long modeInput(int paramNumber, int paramValue, long pointer)
+    {
+        checkMap(pointer);
+        long localRelativeBase = relativeBase + intCode.get(pointer + paramNumber);
+
+        switch (paramValue)
+        {
+            case 0:
+                return intCode.get(pointer + paramNumber);
+
+            case 2:
+                return intCode.get(localRelativeBase);
+
+            default:
+                throw new IndexOutOfBoundsException();
+        }
+    }
+
     private void checkMap(long pointer)
     {
          intCode.putIfAbsent(intCode.get(intCode.get(pointer)), 0L);
          intCode.putIfAbsent(intCode.get(pointer + 1), 0L);
-         intCode.putIfAbsent(relativeBase + intCode.get(pointer), 0L);
+         intCode.putIfAbsent(relativeBase + intCode.get(pointer + 1), 0L);
     }
 
     public long getValue(long index)

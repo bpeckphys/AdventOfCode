@@ -43,7 +43,7 @@ public class Day_5
 
         System.out.println("Day 5:");
 
-        Consumer<Long> sender = out -> { System.out.println("\t\tOutput: " + out); };
+        Consumer<Long> sender = out -> System.out.println("\t\tOutput: " + out);
         System.out.println("\tInput value: 1");
 
         day5IntCode.calculateIntCode(inputArray, () -> 1L, sender);
