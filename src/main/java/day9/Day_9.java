@@ -42,6 +42,7 @@ public class Day_9
             .toArray();
 
         IntCode day9IntCode = new IntCode();
+        day9IntCode.setDebug(true);
 
         System.out.println("Day 9:");
 
