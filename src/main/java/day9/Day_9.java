@@ -42,14 +42,18 @@ public class Day_9
             .toArray();
 
         IntCode day9IntCode = new IntCode();
-        day9IntCode.setDebug(true);
+        IntCode day9IntCodeCoord = new IntCode();
 
         System.out.println("Day 9:");
 
         System.out.print("\tBOOST keycode produced: ");
 
-        Consumer<Long> sender = System.out::print;
+        Consumer<Long> sender = System.out::println;
 
         day9IntCode.calculateIntCode(inputArray, () -> 1L, sender);
+
+        System.out.print("\tCoordinates of distress signal: ");
+
+        day9IntCodeCoord.calculateIntCode(inputArray, () -> 2L, sender);
     }
 }

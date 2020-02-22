@@ -35,6 +35,7 @@ public class IntCode
             if (debug)
             {
                 System.out.println();
+                System.out.println("Pointer is: " + i);
                 System.out.print("Opcode is: ");
                 for (int j = 0; j < opCode.length; j++) { System.out.print(opCode[j] + " "); }
                 System.out.println();
@@ -44,22 +45,22 @@ public class IntCode
             switch (instructions)
             {
                 case 1:
-                    value = modeOutput(1, paramOne, i)
-                          + modeOutput(2, paramTwo, i);
-                    intCode.replace(modeInput(3, paramThree, i), value);
+                    value = modeRead(1, paramOne, i)
+                          + modeRead(2, paramTwo, i);
+                    intCode.put(modeWrite(3, paramThree, i), value);
 
-                    if (debug) { System.out.println("Case 1 value: " + value + " saved to: " + modeInput(3, paramThree, i)); }
+                    if (debug) { System.out.println("Case 1 value: " + value + " saved to: " + modeWrite(3, paramThree, i)); }
 
                     i += 4;
 
                     break;
 
                 case 2:
-                    value = modeOutput(1, paramOne, i)
-                          * modeOutput(2, paramTwo, i);
-                    intCode.replace(modeInput(3, paramThree, i), value);
+                    value = modeRead(1, paramOne, i)
+                          * modeRead(2, paramTwo, i);
+                    intCode.put(modeWrite(3, paramThree, i), value);
 
-                    if (debug) { System.out.println("Case 2 value: " + value + " saved to: " + modeInput(3, paramThree, i)); }
+                    if (debug) { System.out.println("Case 2 value: " + value + " saved to: " + modeWrite(3, paramThree, i)); }
 
                     i += 4;
 
@@ -67,16 +68,16 @@ public class IntCode
 
                 case 3:
                     long input = receiver.get();
-                    intCode.replace(modeInput(1, paramOne, i), input);
+                    intCode.put(modeWrite(1, paramOne, i), input);
 
-                    if (debug) { System.out.println("Case 3 value: " + input + " saved to: " + modeInput(1, paramOne, i)); }
+                    if (debug) { System.out.println("Case 3 value: " + input + " saved to: " + modeWrite(1, paramOne, i)); }
 
                     i += 2;
 
                     break;
 
                 case 4:
-                    value = modeOutput(1, paramOne, i);
+                    value = modeRead(1, paramOne, i);
                     sender.accept(value);
 
                     if (debug) { System.out.println("Case 4 value: " + value + " output"); }
@@ -86,8 +87,8 @@ public class IntCode
                     break;
 
                 case 5:
-                    valueOne = modeOutput(1, paramOne, i);
-                    valueTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeRead(1, paramOne, i);
+                    valueTwo = modeRead(2, paramTwo, i);
 
                     if (debug) { System.out.println("Case 5 valueOne: " + valueOne + " valueTwo: " + valueTwo); }
 
@@ -98,8 +99,8 @@ public class IntCode
                     break;
 
                 case 6:
-                    valueOne = modeOutput(1, paramOne, i);
-                    valueTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeRead(1, paramOne, i);
+                    valueTwo = modeRead(2, paramTwo, i);
 
                     if (debug) { System.out.println("Case 6 valueOne: " + valueOne + " valueTwo: " + valueTwo); }
 
@@ -110,35 +111,37 @@ public class IntCode
                     break;
 
                 case 7:
-                    valueOne = modeOutput(1, paramOne, i);
-                    valueTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeRead(1, paramOne, i);
+                    valueTwo = modeRead(2, paramTwo, i);
 
-                    intCode.replace(modeInput(3, paramThree, i), (valueOne < valueTwo ? 1L : 0));
+                    intCode.put(modeWrite(3, paramThree, i), (valueOne < valueTwo ? 1L : 0));
 
                     if (debug) { System.out.println(); }
 
                     if (debug) { System.out.println("Case 7 valueOne: " + valueOne + " valueTwo: " + valueTwo
-                        + " output value: " + (valueOne < valueTwo ? 1L : 0) + " saved to: " + modeInput(3, paramThree, i)); }
+                        + " output value: " + (valueOne < valueTwo ? 1L : 0) + " saved to: " + modeWrite(3, paramThree, i)); }
 
                     i += 4;
 
                     break;
 
                 case 8:
-                    valueOne = modeOutput(1, paramOne, i);
-                    valueTwo = modeOutput(2, paramTwo, i);
+                    valueOne = modeRead(1, paramOne, i);
+                    valueTwo = modeRead(2, paramTwo, i);
 
-                    intCode.replace(modeInput(3, paramThree, i), (valueOne == valueTwo ? 1L : 0));
+                    intCode.put(modeWrite(3, paramThree, i), (valueOne == valueTwo ? 1L : 0));
 
-                    if (debug) { System.out.println("Case 8 valueOne: " + valueOne + " valueTwo: " + valueTwo + " saved to: " + modeInput(1, paramOne, i)); }
+                    if (debug) { System.out.println("Case 8 valueOne: " + valueOne + " valueTwo: " + valueTwo + "\rValue "
+                            + (valueOne == valueTwo ? 1L : 0) + " saved to: " + modeWrite(3, paramThree, i)); }
 
                     i += 4;
 
                     break;
 
                 case 9:
-                    if (debug) { System.out.println("Starting relative base: " + relativeBase + " increase: " + modeOutput(1, paramOne, i)); }
-                    relativeBase += modeOutput(1, paramOne, i);
+                    if (debug) { System.out.println("Starting relative base: " + relativeBase + " increase: " + modeRead(1, paramOne, i)); }
+
+                    relativeBase += modeRead(1, paramOne, i);
 
                     if (debug) { System.out.println("Relative base increased to: " + relativeBase); }
 
@@ -175,7 +178,7 @@ public class IntCode
         return opCode;
     }
 
-    private long modeOutput(int paramNumber, int paramValue, long pointer)
+    private long modeRead(int paramNumber, int paramValue, long pointer)
     {
         checkMap(pointer);
         if (debug) { System.out.print("Instruction mode is: "); }
@@ -184,24 +187,30 @@ public class IntCode
         {
             case 0:
                 if (debug) System.out.println("parameter mode value at " + intCode.get(pointer + paramNumber) + " is " + intCode.get(intCode.get(pointer + paramNumber)));
+
                 return intCode.get(intCode.get(pointer + paramNumber));
 
             case 1:
                 if (debug) System.out.println("immediate mode value at " + (pointer + paramNumber) + " is " + intCode.get(pointer + paramNumber));
+
                 return intCode.get(pointer + paramNumber);
 
             case 2:
                 if (debug) System.out.println("relative mode");
-                if (debug) { System.out.println("Local relative base is: " + (relativeBase + intCode.get(intCode.get(pointer + paramValue)))); }
-                return relativeBase + intCode.get(intCode.get(pointer + paramValue));
+
+                if (debug) System.out.print("Value at " + (relativeBase + intCode.get(pointer + paramNumber)) + " is ");
+                if (debug) { System.out.println(intCode.get(relativeBase + intCode.get(pointer + paramNumber))); }
+
+                return intCode.get(relativeBase + intCode.get(pointer + paramNumber));
 
             default:
                 if (debug) { System.out.println("Exception thrown for parameter value"); }
+
                 throw new IndexOutOfBoundsException();
         }
     }
 
-    private long modeInput(int paramNumber, int paramValue, long pointer)
+    private long modeWrite(int paramNumber, int paramValue, long pointer)
     {
         checkMap(pointer);
         long localRelativeBase = relativeBase + intCode.get(pointer + paramNumber);
