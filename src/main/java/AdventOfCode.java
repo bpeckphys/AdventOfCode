@@ -2,14 +2,12 @@ import day1.Day_1;
 import day2.Day_2;
 import day3.Day_3;
 import day4.Day_4;
-//import day5.Day_5;
 import day5.Day_5;
 import day6.Day_6;
-//import day7.Day_7;
 import day7.Day_7;
 import day8.Day_8;
 import day9.Day_9;
-//import day9.Day_9;
+import day10.Day_10;
 
 public class AdventOfCode
 {
@@ -23,5 +21,6 @@ public class AdventOfCode
         Day_7.run();
         Day_8.run();
         Day_9.run();
+        Day_10.run();
     }
 }
