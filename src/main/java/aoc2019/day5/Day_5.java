@@ -1,4 +1,4 @@
-package day5;
+package aoc2019.day5;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,7 +22,7 @@ public class Day_5
     {
         ArrayList<Integer> input = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/day5/Day_5_Input"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/aoc2019/day5/Day_5_Input"));
              Scanner scanner = new Scanner(reader.lines().collect(Collectors.joining())))
         {
             scanner.useDelimiter(",");

@@ -1,4 +1,4 @@
-package day6;
+package aoc2019.day6;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +20,7 @@ public class Day_6
 
         System.out.println("Day 6:");
 
-        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/day6/Day_6_Input")))
+        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/aoc2019/day6/Day_6_Input")))
         {
             scanner.useDelimiter("\\n");
 

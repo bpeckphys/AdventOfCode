@@ -1,4 +1,4 @@
-package day10;
+package aoc2019.day10;
 
 import utils.GCD;
 import utils.Pair;
@@ -18,7 +18,7 @@ public class Day_10
     {
         ArrayList<String> input = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/day10/Day_10_Input")))
+        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/aoc2019/day10/Day_10_Input")))
         {
             while (scanner.hasNextLine())
             {

@@ -4,12 +4,6 @@ import java.util.*;
 
 public class PermutingArray
 {
-
-    public static void main(String[] args)
-    {
-
-    }
-
     public static HashMap<Integer, int[]> getPerms(int[] array)
     {
         int arrayCount = 0;

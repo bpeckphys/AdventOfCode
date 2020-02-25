@@ -1,4 +1,4 @@
-package day3;
+package aoc2019.day3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +19,7 @@ public class Day_3
         HashMap<Pair, Integer> firstPairMap;
         HashMap<Pair, Integer> secondPairMap;
 
-        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/day3/Day_3_Input")))
+        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/aoc2019/day3/Day_3_Input")))
         {
             firstPairMap = getPairMap(scanner.nextLine());
             secondPairMap = getPairMap(scanner.nextLine());

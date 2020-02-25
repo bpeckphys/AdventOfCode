@@ -1,4 +1,4 @@
-package day4;
+package aoc2019.day4;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +19,7 @@ public class Day_4
         int startRange;
         int endRange;
 
-        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/day4/Day_4_Input")))
+        try (Scanner scanner = new Scanner(new File("C:/dev/AdventOfCode/src/main/java/aoc2019/day4/Day_4_Input")))
         {
             inputRange = scanner.next();
             startRange = Integer.parseInt(inputRange.split("-")[0]);

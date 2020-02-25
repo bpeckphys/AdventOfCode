@@ -1,4 +1,4 @@
-package day8;
+package aoc2019.day8;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,7 +18,7 @@ public class Day_8
         char[] inputPutArray;
         int[]  integerInput;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/day8/Day_8_Input"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/aoc2019/day8/Day_8_Input"));
              Scanner scanner = new Scanner(reader.lines().collect(Collectors.joining())))
         {
             String input = scanner.next();

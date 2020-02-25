@@ -1,4 +1,4 @@
-package day9;
+package aoc2019.day9;
 
 import utils.IntCode;
 
@@ -21,7 +21,7 @@ public class Day_9
     {
         ArrayList<Long> input = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/day9/Day_9_Input"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:/dev/AdventOfCode/src/main/java/aoc2019/day9/Day_9_Input"));
              Scanner scanner = new Scanner(reader.lines().collect(Collectors.joining())))
         {
             scanner.useDelimiter(",");
