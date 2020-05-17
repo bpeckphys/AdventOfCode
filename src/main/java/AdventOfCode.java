@@ -13,16 +13,16 @@ import aoc2019.day11.Day_11;
 public class AdventOfCode
 {
     public static void main(String[] args) {
-        Day_1.run();
-        Day_2.run();
-        Day_3.run();
-        Day_4.run();
-        Day_5.run();
-        Day_6.run();
-        Day_7.run();
-        Day_8.run();
-        Day_9.run();
-        Day_10.run();
+//        Day_1.run();
+//        Day_2.run();
+//        Day_3.run();
+//        Day_4.run();
+//        Day_5.run();
+//        Day_6.run();
+//        Day_7.run();
+//        Day_8.run();
+//        Day_9.run();
+//        Day_10.run();
         Day_11.run();
     }
 }

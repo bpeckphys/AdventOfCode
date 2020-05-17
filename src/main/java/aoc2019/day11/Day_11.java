@@ -32,5 +32,13 @@ public class Day_11
         {
             throw new RuntimeException(e);
         }
+
+        long[] inPutArray = input.stream().mapToLong(i -> i).toArray();
+
+        HullPaintingRobot emergencyRobot = new HullPaintingRobot();
+
+        System.out.println("Day 11:");
+
+        System.out.println("\tTotal panels painted: " + emergencyRobot.getPanelsPainted(inPutArray));
     }
 }

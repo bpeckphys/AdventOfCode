@@ -48,6 +48,8 @@ public class Day_7
 
         long maxOutputToThrusters = getMaxOutputToThrusters(inPutArray, phases);
         System.out.println("\tMax output to thrusters is: " + maxOutputToThrusters);
+
+        System.out.println("\tPart 2 not done");
     }
 
     private static long getOutputToThrusters(long[] intCodeInput, int[] phaseSettings)
