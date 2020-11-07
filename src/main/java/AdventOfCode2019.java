@@ -10,7 +10,7 @@ import aoc2019.day9.Day_9;
 import aoc2019.day10.Day_10;
 import aoc2019.day11.Day_11;
 
-public class AdventOfCode
+public class AdventOfCode2019
 {
     public static void main(String[] args) {
 //        Day_1.run();
